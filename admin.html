@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #444;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+        .request-list {
+            margin: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .request-item {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .approve-btn {
+            background-color: #28a745;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .approve-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Painel Administrativo</h1>
+    <p>Gerenciamento de Solicitações de Depósitos</p>
+</header>
+
+<section class="request-list">
+    <h2>Solicitações Pendentes</h2>
+    <div id="requestList"></div>
+</section>
+
+<script>
+    // Função para exibir a solicitação de depósito
+    function displayRequest() {
+        const depositRequest = JSON.parse(localStorage.getItem('depositPending'));
+
+        if (depositRequest) {
+            const requestList = document.getElementById('requestList');
+
+            const requestItem = document.createElement('div');
+            requestItem.className = 'request-item';
+            requestItem.innerHTML = `
+                <span><strong>${depositRequest.fullName}</strong> - R$ ${depositRequest.depositAmount}</span>
+                <button class="approve-btn" onclick="approveDeposit()">Aprovar</button>
+            `;
+
+            requestList.appendChild(requestItem);
+        } else {
+            document.getElementById('requestList').innerHTML = '<p>Sem solicitações pendentes.</p>';
+        }
+    }
+
+    // Função para aprovar o depósito
+    function approveDeposit() {
+        const depositRequest = JSON.parse(localStorage.getItem('depositPending'));
+        const depositAmount = 40; // Valor fixo de 40 reais para adicionar
+
+        // Atualiza o saldo do usuário
+        let currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
+        currentBalance += depositAmount;
+
+        // Salva o saldo atualizado
+        localStorage.setItem('userBalance', currentBalance.toFixed(2));
+
+        // Marcar o depósito como aprovado
+        localStorage.setItem('approvedDeposit', 'true');
+
+        // Limpar a solicitação após a aprovação
+        localStorage.removeItem('depositPending');
+
+        // Exibe a confirmação e redireciona para a página de pagamento
+        alert('Depósito aprovado! O saldo foi atualizado.');
+        
+        // Redireciona para a página de pagamento
+        window.location.href = 'página2.html'; // ou "site.html" a2"conforme o nome da sua página de pagamento
+    }
+
+    // Inicializa a página exibindo as solicitações
+    document.addEventListener('DOMContentLoaded', displayRequest);
+</script>
+
+</body>
+</html>

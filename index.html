@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Inicial</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url('início.jpg'); /* Define a imagem de fundo */
+            background-size: cover; /* Faz a imagem cobrir toda a tela */
+            background-position: center; /* Centraliza a imagem */
+            background-repeat: no-repeat; /* Evita que a imagem se repita */
+            color: #fff;
+            display: flex;
+            justify-content: center; /* Centraliza o conteúdo na tela */
+            align-items: center; /* Alinha o conteúdo verticalmente */
+            height: 100vh; /* Faz a tela ocupar 100% da altura */
+            text-align: center; /* Centraliza o texto */
+            position: relative; /* Para poder posicionar a logo de forma absoluta */
+        }
+
+        .logo-main {
+            max-width: 80px;
+            position: absolute;
+            top: 20px; /* Distância do topo */
+            left: 20px; /* Distância da esquerda */
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 250px; /* Distância maior da parte superior para mover mais para baixo */
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 60px; /* Aumentei a margem para mover os botões mais para baixo */
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+            background-color: #00142F; /* Cor dos botões */
+            color: #fff;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <img src="logo.png" alt="Logo Principal" class="logo-main">
+        <h1>Seja Bem-vindo!</h1>
+        <div class="buttons">
+            <button class="signup" onclick="window.location.href='cadastro.html'">Criar Conta</button>
+            <button class="login" onclick="window.location.href='login.html'">Fazer Login</button>
+        </div>
+    </div>
+</body>
+</html>

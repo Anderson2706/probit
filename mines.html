@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mines</title>
+    <style>
+        /* Estilo Global */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #00142F;
+            color: #fff;
+        }
+
+        header {
+            background-color: #444;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+        }
+
+        .logo {
+            max-width: 80px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .user-info span {
+            color: #FF3100;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #FF3100;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .controls label {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .mines-button {
+            padding: 10px;
+            background-color: #FF3100;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            width: 100px;
+            position: relative;
+        }
+
+        /* Lista de minas */
+        .mines-list {
+            display: none;
+            position: absolute;
+            background-color: #FF3100;
+            border-radius: 5px;
+            padding: 5px;
+            margin-top: 5px;
+            width: auto;
+            max-height: 150px;
+            overflow-y: auto;
+            z-index: 1;
+            left: 0;
+        }
+
+        .mines-list button {
+            background-color: transparent;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            padding: 5px;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+        }
+
+        .mines-list button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 500px;
+            margin: auto;
+        }
+
+        .cell {
+            background-color: #FF3100;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60px;  /* Tamanho fixo */
+            height: 60px; /* Tamanho fixo */
+        }
+
+        .cell.disabled {
+            cursor: not-allowed;
+            color: #fff;
+        }
+
+        .cell.red {
+            background-color: #FF0000;
+        }
+
+        .cell.green {
+            background-color: #00FF00;
+        }
+
+        .bet-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bet-input {
+            padding: 10px;
+            background-color: #FF3100;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            width: 100px;
+            font-size: 1rem;
+        }
+
+        .bet-button {
+            padding: 15px 20px;
+            background-color: #FF3100;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 150px;
+        }
+
+        .bet-button:hover {
+            background-color: #FF7A00;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.3rem;
+        }
+
+        .bet-summary {
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+
+        .bet-summary span {
+            color: #FF3100;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="Logo.png" alt="Logo" class="logo">
+        <div class="user-info">
+            <span>R$ 100,00</span>
+            <img src="Icone.png" alt="Ícone do Usuário">
+        </div>
+    </header>
+
+    <main>
+        <h1>Mines</h1>
+
+        <div class="controls">
+            <label for="mines">Minas:</label>
+            <button class="mines-button" id="minesButton" onclick="toggleMinesList()">1</button>
+            <div class="mines-list" id="minesList">
+                <script>
+                    for (let i = 1; i <= 24; i++) {
+                        document.write(`<button onclick="selectMineCount(${i})">${i}</button>`);
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="grid" id="grid"></div>
+
+        <div class="bet-controls">
+            <input type="number" id="bet" class="bet-input" step="0.10" min="0.10" value="1.00">
+            <button class="bet-button" id="betButton" onclick="startGame()">Apostar</button>
+        </div>
+
+        <div class="bet-summary">
+            <p>Apostado: <span id="betAmount">R$ 1,00</span></p>
+            <p>Ganhando: <span id="winAmount">R$ 0,00</span></p>
+        </div>
+    </main>
+
+    <script>
+        const balanceElement = document.querySelector('.user-info span');
+        const gridElement = document.getElementById('grid');
+        const betInput = document.getElementById('bet');
+        const betButton = document.getElementById('betButton');
+        const minesButton = document.getElementById('minesButton');
+        const minesList = document.getElementById('minesList');
+        const betAmountElement = document.getElementById('betAmount');
+        const winAmountElement = document.getElementById('winAmount');
+
+        let balance = parseFloat(localStorage.getItem('userBalance')) || 100.00;
+        let mines = [];
+        let isGameActive = false;
+        let selectedMinesCount = 1;
+        let betAmount = 0;
+        let winAmount = 0;
+
+        function updateBalanceDisplay() {
+            balanceElement.textContent = `R$ ${balance.toFixed(2)}`;
+            localStorage.setItem('userBalance', balance.toFixed(2));
+        }
+
+        function generateMines(count) {
+            const minePositions = new Set();
+            while (minePositions.size < count) {
+                minePositions.add(Math.floor(Math.random() * 25));
+            }
+            return Array.from(minePositions);
+        }
+
+        function generateCells() {
+            gridElement.innerHTML = '';
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('button');
+                cell.classList.add('cell');
+                cell.textContent = '?';
+                cell.addEventListener('click', () => revealCell(cell, i));
+                gridElement.appendChild(cell);
+            }
+        }
+
+        function revealCell(cell, index) {
+            if (!isGameActive || cell.classList.contains('disabled')) return;
+
+            cell.classList.add('disabled');
+            if (mines.includes(index)) {
+                cell.classList.add('red');
+                cell.textContent = '💣';
+                showAllMines();
+                isGameActive = false;
+            } else {
+                cell.classList.add('green');
+                cell.textContent = '💎';
+                winAmount += betAmount * (1 + 0.5 * selectedMinesCount); // Ajuste das odds
+                updateWinAmountDisplay();
+            }
+        }
+
+        function showAllMines() {
+            const cells = gridElement.querySelectorAll('.cell');
+            cells.forEach((cell, index) => {
+                if (mines.includes(index)) {
+                    cell.classList.add('red');
+                    cell.textContent = '💣';
+                } else {
+                    cell.classList.add('green');
+                    cell.textContent = '💎';
+                }
+            });
+        }
+
+        function updateWinAmountDisplay() {
+            winAmountElement.textContent = `R$ ${winAmount.toFixed(2)}`;
+        }
+
+        function startGame() {
+            betAmount = parseFloat(betInput.value);
+            if (betAmount < 0.10 || betAmount > balance) {
+                alert('Valor inválido para aposta.');
+                return;
+            }
+
+            balance -= betAmount;
+            winAmount = 0;  // Reseta o valor ganho a cada novo jogo
+            updateBalanceDisplay();
+            updateWinAmountDisplay();
+            isGameActive = true;
+            mines = generateMines(selectedMinesCount);
+            generateCells();
+            betButton.textContent = 'Sacar';
+            disableControls(true);
+        }
+
+        function withdraw() {
+            if (winAmount > 0) {
+                balance += winAmount; // Adiciona o valor ganho ao saldo
+                updateBalanceDisplay();
+            }
+            betButton.textContent = 'Apostar';
+            isGameActive = false;
+            disableControls(false);
+            resetGame();
+        }
+
+        function resetGame() {
+            selectedMinesCount = 1;
+            minesButton.textContent = '1';
+            generateCells();
+            winAmount = 0;
+            updateWinAmountDisplay();
+        }
+
+        function disableControls(disable) {
+            minesButton.disabled = disable;
+            betInput.disabled = disable;
+        }
+
+        function toggleMinesList() {
+            if (isGameActive) return;
+            minesList.style.display = minesList.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function selectMineCount(count) {
+            if (isGameActive) return;
+            selectedMinesCount = count;
+            minesButton.textContent = count;
+            minesList.style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateBalanceDisplay();
+            generateCells();
+        });
+    </script>
+</body>
+</html>

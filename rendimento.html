@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Rendimento</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        header {
+            background-color: #ff5722 ;
+            padding: 10px;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        .form-container {
+            margin-bottom: 20px;
+        }
+
+        .form-container input, .form-container button {
+            padding: 10px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #fff;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .back-button {
+            padding: 10px 20px;
+            background-color:  #ff5722;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background-color: #ff8800;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ver Rendimento</h1>
+    </header>
+    <main>
+        <!-- Botão de voltar -->
+     <button class="back-button" onclick="window.location.href='site.html';">Voltar para a Tela Inicial</button>
+        
+        
+        <div class="form-container">
+            <input type="number" id="gainInput" placeholder="Insira o ganho do dia">
+            <button onclick="addGain()">Adicionar Ganho</button>
+        </div>
+        <div id="chart-container">
+            <canvas id="gainChart"></canvas>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody id="gainTableBody">
+            </tbody>
+        </table>
+    </main>
+     <button class="back-button" onclick="voltarParaInicio()">Voltar</button>
+    <script>
+        function voltarParaInicio() {
+        window.location.href = "site.html";
+    }
+        // Inicialização
+        const gains = JSON.parse(localStorage.getItem('gains')) || [];
+        const gainTableBody = document.getElementById('gainTableBody');
+        const gainChartCtx = document.getElementById('gainChart').getContext('2d');
+        let gainChart;
+
+        // Atualiza tabela e gráfico
+        function updateUI() {
+            // Atualiza a tabela
+            gainTableBody.innerHTML = '';
+            gains.forEach(gain => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${gain.date}</td>
+                    <td>R$ ${(gain.value || 0).toFixed(2)}</td>
+                `;
+                gainTableBody.appendChild(row);
+            });
+
+            // Atualiza o gráfico
+            const labels = gains.map(gain => gain.date);
+            const data = gains.map(gain => gain.value);
+
+            if (gainChart) gainChart.destroy();
+
+            gainChart = new Chart(gainChartCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Rendimentos',
+                        data: data,
+                        borderColor: '#FF7A00',
+                        backgroundColor: 'rgba(255, 122, 0, 0.2)',
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+        }
+
+        // Adiciona um novo ganho
+        function addGain() {
+            const gainInput = document.getElementById('gainInput');
+            const gainValue = parseFloat(gainInput.value);
+            const today = new Date().toLocaleDateString('pt-BR');
+
+            if (!isNaN(gainValue) && gainValue > 0) {
+                gains.push({ date: today, value: gainValue });
+                localStorage.setItem('gains', JSON.stringify(gains));
+                gainInput.value = '';
+                updateUI();
+            } else {
+                alert('Insira um valor válido!');
+            }
+        }
+
+        // Carrega os dados ao iniciar
+        updateUI();
+    </script>
+</body>
+</html>

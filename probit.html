@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Probit</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #00142F;
+            color: #fff;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .module {
+            background-color: #FF3100;
+            margin: 20px auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 49, 0, 0.7);
+            text-align: center;
+        }
+
+        .module h2 {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .arrow {
+            font-size: 24px;
+        }
+
+        .crown {
+            color: white;
+            font-size: 24px;
+            margin-left: 10px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 200px;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .actions button {
+            background-color: #00142F;
+            color: #FF3100;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex: 1;
+        }
+
+        .actions button:hover {
+            background-color: #FF7A00;
+            color: #fff;
+        }
+
+        #investment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            display: none;
+        }
+
+        #investment-modal .modal-content {
+            background-color: #00142F;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        #investment-modal input[type="number"],
+        #investment-modal button {
+            margin-top: 10px;
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #investment-modal input[type="number"] {
+            background-color: #fff;
+            color: #000;
+        }
+
+        #investment-modal button {
+            background-color: #FF3100;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #investment-modal button:hover {
+            background-color: #FF7A00;
+        }
+
+        #investment-modal .close-btn {
+            background-color: #444;
+            margin-top: 10px;
+        }
+
+        .back-arrow {
+            font-size: 30px;
+            color: #FF3100;
+            cursor: pointer;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<section>
+    <h1>Probit - Criptomoedas</h1>
+
+    <div class="back-arrow" onclick="window.location.href='site.html';">← Voltar</div>
+
+    <!-- Módulos para 9 Criptomoedas -->
+    <div id="cryptos">
+        <div style="background-color: #FF3100; padding: 10px; border-radius: 5px; font-size: 1.2rem; font-weight: bold; display: inline-block; margin-bottom: 20px;"> Saldo disponível: R$<span id="balance-display">100.00</span> </div> <div class="back-arrow" onclick="window.location.href='site.html';">← Voltar</div> <div id="cryptos">
+        <!-- Cada moeda será listada com seu gráfico e ações -->
+    </div>
+
+</section>
+
+<!-- Modal para Investir -->
+<div id="investment-modal">
+    <div class="modal-content">
+        <h2>Investir em <span id="crypto-name"></span></h2>
+        <p>Escolha um valor para investir (mínimo R$10,00):</p>
+        <button onclick="predefinedInvestment(10)">R$ 10</button>
+        <button onclick="predefinedInvestment(50)">R$ 50</button>
+        <button onclick="predefinedInvestment(100)">R$ 100</button>
+        <input type="number" id="investment-value" placeholder="Digite outro valor" min="10">
+        <button onclick="confirmInvestment()">Confirmar</button>
+        <button class="close-btn" onclick="closeInvestmentModal()">Cancelar</button>
+    </div>
+</div>
+<script>
+ // Recupera o saldo do localStorage diretamente como 'balance'
+let availableBalance = parseFloat(localStorage.getItem('balance')) || 1.00; // Saldo inicial
+let selectedCrypto = '';
+let userInvestments = JSON.parse(localStorage.getItem('userInvestments')) || {}; // Carrega investimentos
+let cryptocurrencies = [
+    'Nebulon', 'Astrobyte', 'Soltrix', 'Lunaria', 'Cryonex',
+    'Stellarix', 'Orbitex', 'Photonium', 'Quantrex'
+];
+
+// Função para abrir o modal de investimento
+function openInvestmentModal(crypto) {
+    selectedCrypto = crypto;
+    document.getElementById('crypto-name').innerText = crypto;
+    document.getElementById('investment-modal').style.display = 'flex';
+}
+
+// Função para fechar o modal de investimento
+function closeInvestmentModal() {
+    document.getElementById('investment-modal').style.display = 'none';
+}
+
+// Função para inserir valor pré-definido no campo de investimento
+function predefinedInvestment(value) {
+    document.getElementById('investment-value').value = value;
+}
+
+// Função para confirmar o investimento
+function confirmInvestment() {
+    const investmentValue = parseFloat(document.getElementById('investment-value').value);
+    if (isNaN(investmentValue) || investmentValue < 10) {
+        alert('Por favor, insira um valor válido (mínimo R$10,00).');
+        return;
+    }
+
+    if (investmentValue > availableBalance) {
+        alert('Saldo insuficiente para investir.');
+        return;
+    }
+
+    availableBalance -= investmentValue;
+    if (!userInvestments[selectedCrypto]) {
+        userInvestments[selectedCrypto] = 0;
+    }
+    userInvestments[selectedCrypto] += investmentValue; // Registra o investimento
+
+    // Atualiza o saldo no localStorage
+    localStorage.setItem('balance', availableBalance.toFixed(2));
+    localStorage.setItem('userInvestments', JSON.stringify(userInvestments)); // Salva investimentos
+
+    alert(`Você investiu R$${investmentValue.toFixed(2)} em ${selectedCrypto}! Saldo restante: R$${availableBalance.toFixed(2)}`);
+    updateCryptoStatus(selectedCrypto); // Atualiza status da moeda
+    closeInvestmentModal();
+    updateBalanceDisplay();
+}
+
+// Atualiza o saldo exibido na página e habilita/desabilita o botão de investimento
+function updateBalanceDisplay() {
+    // Exibe o saldo atualizado na página
+    document.getElementById('balance-display').innerText = availableBalance.toFixed(2);
+
+    // Desabilitar botões "Investir" se o saldo for menor que R$10,00
+    const investButtons = document.querySelectorAll('.actions button:first-child');
+    investButtons.forEach(button => {
+        if (availableBalance < 10) {
+            button.disabled = true;
+            button.style.backgroundColor = '#666'; // Cor de botão desabilitado
+            button.style.cursor = 'not-allowed';
+        } else {
+            button.disabled = false;
+            button.style.backgroundColor = '#00142F'; // Cor original
+            button.style.cursor = 'pointer';
+        }
+    });
+}
+
+// Gerar módulos e gráficos para as 9 criptomoedas
+cryptocurrencies.forEach((crypto, index) => {
+    const cryptoDiv = document.createElement('div');
+    cryptoDiv.classList.add('module');
+    cryptoDiv.innerHTML = `
+        <h2>${crypto} <span id="arrow${index}" class="arrow">↗</span><span class="crown" id="crown-${crypto}">👑</span></h2>
+        <div class="chart-container">
+            <canvas id="chart${index}"></canvas>
+        </div>
+        <div class="actions">
+            <button onclick="openInvestmentModal('${crypto}')">Investir</button>
+            <button onclick="sell('${crypto}')">Vender</button>
+        </div>
+    `;
+    document.getElementById('cryptos').appendChild(cryptoDiv);
+
+    // Chama a função para cada gráfico
+    generateRandomChart(document.getElementById(`chart${index}`).getContext('2d'), crypto);
+    updateCryptoStatus(crypto); // Atualiza o status da moeda na exibição
+});
+
+// Função para vender a criptomoeda e adicionar o valor da venda ao saldo
+function sell(cryptoName) {
+    if (!userInvestments[cryptoName] || userInvestments[cryptoName] <= 0) {
+        alert('Você precisa comprar essa moeda primeiro para vendê-la.');
+        return;
+    }
+
+    const cryptoValue = Math.random() * 100; // Simula o valor da criptomoeda no momento da venda
+    const amountSold = userInvestments[cryptoName];
+    userInvestments[cryptoName] = 0; // Zera o investimento após venda
+    availableBalance += cryptoValue * amountSold / 100; // Calcula o valor da venda baseado no preço atual
+
+    // Atualiza o saldo no localStorage
+    localStorage.setItem('balance', availableBalance.toFixed(2)); // Salva saldo após venda
+    localStorage.setItem('userInvestments', JSON.stringify(userInvestments)); // Salva estado dos investimentos
+
+    alert(`Você vendeu sua posição em ${cryptoName} por R$${(cryptoValue * amountSold / 100).toFixed(2)}! Saldo disponível: R$${availableBalance.toFixed(2)}`);
+    updateCryptoStatus(cryptoName); // Atualiza o status da moeda
+    updateBalanceDisplay();
+}
+
+// Função para gerar gráficos com valores aleatórios
+function generateRandomChart(ctx, cryptoName) {
+    const previousValue = Math.random() * 100;
+    const currentValue = Math.random() * 100;
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+            datasets: [{
+                label: `Valor da ${cryptoName}`,
+                data: [previousValue, currentValue, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100, Math.random() * 100],
+                borderColor: '#FFFFFF',
+                backgroundColor: 'rgba(255, 49, 0, 0.3)', 
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2,
+            }]
+        }
+    });
+}
+
+// Função para atualizar o status da moeda para mostrar a coroa se comprada
+function updateCryptoStatus(crypto) {
+    const crownElement = document.getElementById(`crown-${crypto}`);
+    // Verifica se o elemento existe antes de tentar alterar o estilo
+    if (crownElement) {
+        if (userInvestments[crypto] > 0) {
+            crownElement.style.display = 'inline';
+        } else {
+            crownElement.style.display = 'none';
+        }
+    }
+}
+
+// Atualiza o saldo ao carregar a página
+document.addEventListener('DOMContentLoaded', () => {
+    updateBalanceDisplay(); // Exibe o saldo
+    updateCryptoStatus(); // Atualiza os status das criptomoedas
+});
+
+  </script>
+
+
+</body>
+</html>

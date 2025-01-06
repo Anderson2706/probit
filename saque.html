@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Saque</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Estilos gerais */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #00142F; /* Cor de fundo */
+            color: #fff; /* Cor do texto */
+        }
+
+        .form-container {
+            margin: 50px auto;
+            background-color: #003366; /* Fundo do formulário */
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .form-container img {
+            max-width: 120px;
+            margin-bottom: 15px;
+        }
+
+        .form-container h2 {
+            color: #FF3100; /* Cor do título */
+            margin-bottom: 20px;
+        }
+
+        .form-container input,
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-container button {
+            background-color: #FF3100; /* Cor do botão */
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+
+        .form-container button:hover {
+            background-color: #FF5700; /* Cor do botão ao passar o mouse */
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background-color: #005500;
+            color: white;
+        }
+
+        .message.error {
+            background-color: #FF3100;
+            color: white;
+        }
+
+        /* Estilo da seta de voltar */
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 24px;
+            color: #FF3100; /* Cor da seta */
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .back-arrow:hover {
+            color: #FF5700; /* Cor ao passar o mouse */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Seta de Voltar -->
+<a href="site.html" class="back-arrow">&#8592; Voltar</a>
+
+<main>
+    <div class="form-container">
+        <img src="Logopix.png" alt="Ícone Pix">
+        <h2>Solicitação de Saque</h2>
+        <form id="form-saque">
+            <input type="number" id="valor-saque" placeholder="Digite o valor do saque (R$)" required>
+            <input type="text" id="chave-pix" placeholder="Digite sua chave Pix (CPF)" required>
+            <button type="submit">Solicitar Saque</button>
+        </form>
+        <div id="message" class="message"></div>
+    </div>
+</main>
+
+<script>
+    // Função para validar CPF
+    function validarCPF(cpf) {
+        cpf = cpf.replace(/[^\d]+/g, "");
+        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+        let soma = 0, resto;
+
+        for (let i = 1; i <= 9; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+        }
+
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+        if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+        soma = 0;
+        for (let i = 1; i <= 10; i++) {
+            soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+        }
+
+        resto = (soma * 10) % 11;
+        if (resto === 10 || resto === 11) resto = 0;
+
+        return resto === parseInt(cpf.substring(10, 11));
+    }
+
+    document.getElementById("form-saque").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const valorSaque = document.getElementById("valor-saque").value;
+        const chavePix = document.getElementById("chave-pix").value;
+
+        if (!validarCPF(chavePix)) {
+            showMessage("Chave Pix inválida. O CPF informado não é válido.", "error");
+            return;
+        }
+
+        // Salvar os dados no localStorage
+        localStorage.setItem("valorSaque", valorSaque);
+        localStorage.setItem("chavePix", chavePix);
+
+        // Redirecionar para a página de confirmação
+        window.location.href = "confirmação.html";
+    });
+
+    // Função para exibir mensagens
+    function showMessage(message, type) {
+        const messageElement = document.getElementById("message");
+        messageElement.className = "message " + type;
+        messageElement.textContent = message;
+        messageElement.style.display = "block";
+    }
+</script>
+
+</body>
+</html>

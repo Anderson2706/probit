@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Saque</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Fundo preto */
+            color: #FFF;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .check-icon {
+            width: 150px; /* Largura maior */
+            height: 150px; /* Altura maior */
+            margin-bottom: 20px;
+            animation: girar 2s linear infinite; /* Adiciona a animação */
+        }
+
+        @keyframes girar {
+            0% {
+                transform: rotateY(0deg); /* Começa sem rotação */
+            }
+            50% {
+                transform: rotateY(180deg); /* Meio da rotação */
+            }
+            100% {
+                transform: rotateY(360deg); /* Finaliza o giro completo */
+            }
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .amount {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff5722; /* Laranja */
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 30px;
+            background-color: #ff5722;
+            color: #FFF;
+            border: none;
+            border-radius: 25px;
+            text-align: center;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background-color: #e64a19; /* Laranja mais escuro */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="Verificado.png" alt="Ícone de sucesso" class="check-icon"> <!-- Substitua pela sua imagem -->
+    <h2>Você fez um saque instantâneo</h2>
+    <div class="amount">R$ <span id="valor"></span></div>
+    <p>Verifique sua conta para acessar seus fundos!</p>
+    <a href="site.html" class="btn" onclick="visualizarConta()">Visualizar conta</a>
+</div>
+
+<script>
+    // Recuperar os dados do localStorage
+    const valorSaque = localStorage.getItem("valorSaque");
+
+    // Exibir o valor do saque
+    document.getElementById("valor").textContent = valorSaque || "0,00";
+
+    // Função para redirecionar
+    function visualizarConta() {
+        alert("Você será redirecionado para visualizar sua conta!");
+    }
+</script>
+
+</body>
+</html>

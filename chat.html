@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat de Suporte</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            max-width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            position: relative;
+            background-color: #ff5722;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .chat-header .back-button {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-header .back-button img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .chat-messages {
+            padding: 15px;
+            flex: 1;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .chat-messages .message {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .chat-messages .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .chat-messages .message.support {
+            flex-direction: row;
+        }
+
+        .chat-messages .message img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .chat-messages .message p {
+            background-color: #f1f1f1;
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 75%;
+        }
+
+        .chat-messages .message.user p {
+            background-color: #ff5722;
+            color: #fff;
+        }
+
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .keywords span {
+            background-color: #ff5722;
+            color: #fff;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .keywords span:hover {
+            background-color: #e64a19;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 0;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .chat-input button {
+            background-color: #ff5722;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .chat-input button:hover {
+            background-color: #e64a19;
+        }
+
+        /* Estilo dos botões para continuar ou terminar */
+        .buttons {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .buttons button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .buttons button:hover {
+            background-color: #e64a19;
+        }
+
+        /* Estilo do botão "Ver opções" */
+        .options-button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .options-button:hover {
+            background-color: #e64a19;
+        }
+
+        /* Animação de bolinhas digitando */
+        .typing {
+            display: flex;
+            gap: 5px;
+            margin-left: 40px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #ff5722;
+            animation: typing 1.2s infinite ease-in-out;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes typing {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="chat-header">
+        <a href="site.html" class="back-button">
+            <img src="seta.png" alt="Voltar"> <!-- Substitua 'seta.png' pelo caminho correto da imagem -->
+        </a>
+        Chat de Suporte
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <!-- Mensagens aparecerão aqui -->
+    </div>
+    <div class="chat-input" id="chatInput">
+        <button onclick="startChat()">Iniciar Chat</button>
+    </div>
+</div>
+
+<script>
+    const respostas = {
+        "oi": "Olá! Como posso ajudar você hoje?",
+        "problema": "Por favor, selecione o tipo de problema abaixo para que eu possa ajudar:",
+        "saque": "Para realizar um saque, basta acessar a seção 'Saque' no seu perfil e seguir as instruções.",
+        "contato": "Você pode entrar em contato conosco pelo nosso e-mail de suporte: suporte@shoote.com.",
+        "obrigado": "De nada! Se precisar de mais alguma coisa, estou por aqui.",
+        "pagamento": "O pagamento pode ser feito via Pix, cartão de crédito ou boleto. Qual você prefere?",
+        "atraso": "Se você está com um atraso em algum pedido, me forneça o número do pedido para que eu possa verificar.",
+        "erro": "Se você encontrou um erro, descreva o que ocorreu e tentarei ajudá-lo a corrigir.",
+        "horário": "Nosso horário de atendimento é das 9h às 18h, de segunda a sexta-feira.",
+        "suporte técnico": "Caso precise de suporte técnico, me explique o problema e farei o possível para ajudar.",
+        "documentos": "Para certos processos, precisaremos de documentos como RG, CPF ou comprovante de residência. Qual documento você precisa enviar?",
+        "senha": "Se você esqueceu sua senha, clique em 'Esqueci minha senha' na página de login para redefinir.",
+        "cancelamento": "Caso deseje cancelar um pedido, entre em contato com nosso suporte com o número do pedido.",
+        "reembolso": "Se você precisa de um reembolso, entre em contato com o suporte, informando os dados do pedido.",
+        "ajuda": "Estou aqui para ajudar! O que você precisa?",
+        "envio": "O prazo de envio depende do produto e da sua localidade, geralmente varia de 3 a 7 dias úteis.",
+        "troca": "Se precisar trocar um produto, entre em contato com o suporte e informe o número do pedido.",
+        "frete": "O valor do frete depende da sua localização. Verifique na página de checkout o valor exato.",
+        "rastreamento": "Você pode rastrear seu pedido diretamente no site da transportadora usando o código de rastreamento.",
+        "dúvidas": "Se tiver mais dúvidas, fique à vontade para perguntar. Estou aqui para ajudar!",
+        "produtos": "Acesse nossa página de produtos para conferir a variedade disponível. Tem algo específico que você procura?",
+        "problema_envio": "Se o problema é relacionado ao envio, entre em contato com a transportadora com o código de rastreamento ou verifique se o endereço está correto.",
+        "problema_pagamento": "Se você teve problemas com o pagamento, verifique se o método escolhido foi aceito e se há saldo disponível. Caso o erro persista, entre em contato com o banco ou com nosso suporte.",
+        "problema_sistema": "Se você encontrou algum erro no sistema, tente limpar o cache do seu navegador ou acessar o site em outro dispositivo. Se continuar com o problema, entre em contato conosco para resolvermos o mais rápido possível."
+    };
+
+    let typingTimeout;
+    
+    // Função para iniciar o chat com a opção "Iniciar Chat"
+    function startChat() {
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        
+        // Mostrar o botão de iniciar chat
+        const userMessage = document.createElement('div');
+        userMessage.classList.add('message', 'user');
+        userMessage.innerHTML = `<p>Iniciar Chat</p>`;
+        chatMessages.appendChild(userMessage);
+
+        // Mostrar a primeira pergunta do suporte com a animação de digitação
+        setTimeout(() => {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing');
+            typingIndicator.innerHTML = `
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            `;
+            chatMessages.appendChild(typingIndicator);
+
+            setTimeout(() => {
+                typingIndicator.remove();
+                const questionMessage = document.createElement('div');
+                questionMessage.classList.add('message', 'support');
+                questionMessage.innerHTML = `
+                    <img src="Atendente.jpg" alt="Suporte" />
+                    <p>Como posso ajudar você hoje?</p>
+                `;
+                chatMessages.appendChild(questionMessage);
+
+                // Mostrar o botão de ver opções
+                const showOptionsButton = document.createElement('button');
+                showOptionsButton.classList.add('options-button');
+                showOptionsButton.innerHTML = "Ver opções";
+                showOptionsButton.onclick = showKeywords;
+                chatMessages.appendChild(showOptionsButton);
+                
+                chatInput.style.display = 'none';  // Esconde o campo de entrada após a primeira pergunta
+            }, 2000); // Animação de digitação dura 2 segundos antes de mostrar a pergunta
+        }, 1000);  // Primeira animação de digitação aparece 1 segundo após o clique no "Iniciar Chat"
+    }
+
+    // Função para mostrar as palavras-chave após clicar em "Ver opções"
+    function showKeywords() {
+        const chatMessages = document.getElementById('chatMessages');
+        
+        const typingIndicator = document.createElement('div');
+        typingIndicator.classList.add('typing');
+        typingIndicator.innerHTML = `
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        `;
+        chatMessages.appendChild(typingIndicator);
+        
+        setTimeout(() => {
+            typingIndicator.remove();
+            const keywordsMessage = document.createElement('div');
+            keywordsMessage.classList.add('message', 'support');
+            keywordsMessage.innerHTML = `
+                <img src="Atendente.jpg" alt="Suporte" />
+                <div class="keywords">
+                    <span onclick="sendResponse('oi')">oi</span>
+                    <span onclick="sendResponse('problema')">problema</span>
+                    <span onclick="sendResponse('contato')">contato</span>
+                    <span onclick="sendResponse('pagamento')">pagamento</span>
+                    <span onclick="sendResponse('produtos')">produtos</span>
+                    <span onclick="sendResponse('reembolso')">reembolso</span>
+                </div>
+            `;
+            chatMessages.appendChild(keywordsMessage);
+        }, 2000);  // Animação das bolinhas dura 2 segundos antes de mostrar as opções
+    }
+
+    // Função para enviar a resposta ao clicar na palavra-chave
+    function sendResponse(keyword) {
+        const chatMessages = document.getElementById('chatMessages');
+
+        if (keyword === "problema") {
+            const problemsMessage = document.createElement('div');
+            problemsMessage.classList.add('message', 'support');
+            problemsMessage.innerHTML = `
+                <img src="Atendente.jpg" alt="Suporte" />
+                <p>${respostas[keyword]}</p>
+                <div class="keywords">
+                    <span onclick="sendResponse('problema_envio')">Problema com envio</span>
+                    <span onclick="sendResponse('problema_pagamento')">Problema com pagamento</span>
+                    <span onclick="sendResponse('problema_sistema')">Problema no sistema</span>
+                </div>
+            `;
+            chatMessages.appendChild(problemsMessage);
+        } else {
+            const supportMessage = document.createElement('div');
+            supportMessage.classList.add('message', 'support');
+            supportMessage.innerHTML = `
+                <img src="Atendente.jpg" alt="Suporte" />
+                <p>${respostas[keyword]}</p>
+            `;
+            chatMessages.appendChild(supportMessage);
+
+            // Mostrar opções de continuar ou terminar
+            const buttons = document.createElement('div');
+            buttons.classList.add('buttons');
+            buttons.innerHTML = `
+                <button onclick="continueChat()">Continuar</button>
+                <button onclick="endChat()">Terminar</button>
+            `;
+            chatMessages.appendChild(buttons);
+        }
+    }
+
+    // Função para continuar o chat
+    function continueChat() {
+        const chatMessages = document.getElementById('chatMessages');
+        const typingIndicator = document.createElement('div');
+        typingIndicator.classList.add('typing');
+        typingIndicator.innerHTML = `
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        `;
+        chatMessages.appendChild(typingIndicator);
+
+        setTimeout(() => {
+            typingIndicator.remove();
+            sendResponse("ajuda");
+        }, 2000);
+    }
+
+    // Função para terminar o chat
+    function endChat() {
+        const chatMessages = document.getElementById('chatMessages');
+        const endMessage = document.createElement('div');
+        endMessage.classList.add('message', 'support');
+        endMessage.innerHTML = `
+            <img src="Atendente.jpg" alt="Suporte" />
+            <p>Obrigado por usar nosso suporte! Até mais!</p>
+        `;
+        chatMessages.appendChild(endMessage);
+    }
+</script>
+</body>
+</html>

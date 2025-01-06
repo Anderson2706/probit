@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #00142F; /* Fundo azul escuro */
+            color: #FFF; /* Texto branco */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            padding: 15px;
+            background-color: #00142F;
+            border-bottom: 1px solid #FF3100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .menu-icon div {
+            width: 25px;
+            height: 3px;
+            background-color: #FF3100;
+            margin: 4px 0;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        .back-button img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            margin-top: 100px;
+            background-color: #FF3100; /* Fundo do campo de configurações */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #FFF;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: none; /* Remove as bordas */
+            border-radius: 5px;
+            background-color: #00142F; /* Campo de entrada azul escuro */
+            color: #FFF;
+            text-transform: uppercase;
+            outline: none; /* Remove o contorno ao focar */
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #FF3100;
+            color: #FFF;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FF5722; /* Laranja mais claro */
+        }
+
+        .success-message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #4CAF50;
+            display: none;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="site.html" class="back-button">
+        <!-- Substitua pela sua imagem de seta -->
+    </a>
+    <div class="menu-icon" onclick="abrirMenu()">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</header>
+
+<div class="container">
+    <h2>Configurações</h2>
+    <form id="settingsForm">
+        <!-- Editar Endereço -->
+        <div class="form-group">
+            <label for="endereco">Editar Endereço</label>
+            <input type="text" id="endereco" placeholder="Digite seu endereço">
+        </div>
+        
+        <!-- Editar Email -->
+        <div class="form-group">
+            <label for="email">Editar Email</label>
+            <input type="email" id="email" placeholder="Digite seu email">
+        </div>
+        
+        <!-- Alterar Senha -->
+        <div class="form-group">
+            <label for="senha">Alterar Senha</label>
+            <input type="password" id="senha" placeholder="Digite sua nova senha">
+        </div>
+        
+        <!-- Botão Salvar -->
+        <button type="button" class="btn" onclick="salvarConfiguracoes()">Salvar Configurações</button>
+    </form>
+
+    <!-- Mensagem de Sucesso -->
+    <div class="success-message" id="successMessage">Configurações salvas com sucesso!</div>
+</div>
+
+<script>
+    function salvarConfiguracoes() {
+        const endereco = document.getElementById("endereco").value;
+        const email = document.getElementById("email").value;
+        const senha = document.getElementById("senha").value;
+
+        if (endereco) localStorage.setItem("endereco", endereco);
+        if (email) localStorage.setItem("email", email);
+        if (senha) localStorage.setItem("senha", senha);
+
+        const successMessage = document.getElementById("successMessage");
+        successMessage.style.display = "block";
+
+        setTimeout(() => {
+            successMessage.style.display = "none";
+        }, 3000);
+    }
+
+    function abrirMenu() {
+        window.location.href = "site.html";
+    }
+</script>
+
+</body>
+</html>

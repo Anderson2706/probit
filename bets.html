@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+<meta charset=UTF-8>
+<meta name=viewport content="width=device-width, initial-scale=1.0">
+<title>Área VIP - protix</title>
+<style>body{font-family:Arial,sans-serif;background-color:#000;margin:0;padding:0;display:flex;flex-direction:column;align-items:center}header{background-color:#000;color:white;padding:15px 30px;width:100%;text-align:center;font-size:24px;font-weight:bold;box-shadow:0 4px 6px rgba(0,0,0,0.1);position:sticky;top:0}.menu-icon{display:flex;flex-direction:column;cursor:pointer;position:absolute;right:20px;top:20px}.menu-icon div{width:25px;height:3px;background-color:white;margin:5px 0}.video-banner{width:100%;max-width:1080px;aspect-ratio:1;border-radius:8px;overflow:hidden;margin:20px 0;position:relative}.video-banner video{width:100%;height:100%;object-fit:cover;border-radius:8px}.video-overlay{position:absolute;bottom:0;width:100%;height:40%;background:linear-gradient(to top,#000000,rgba(0,0,0,0));border-radius:8px}.highlight-section{width:100%;display:flex;align-items:center;margin:20px 0;padding-left:20px;color:#fff}.highlight-title{font-size:16px;font-weight:400;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-left:8px}.highlight-title .star{color:orange;font-size:40px}.carousel-container{width:100%;max-width:1200px;margin-top:20px;overflow:hidden;position:relative}.carousel-wrapper{display:flex;transition:transform .5s ease-in-out}.carousel-item{min-width:300px;margin-right:20px;background-color:#1c1c1c;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.5);padding:20px;text-align:center;transform:translateY(0);transition:transform .3s ease-in-out}.carousel-item:hover{transform:translateY(-10px);box-shadow:0 10px 20px rgba(0,0,0,0.7)}.carousel-item h3{font-size:20px;color:#fff;margin:10px 0}.carousel-item p{color:#ccc;font-size:14px}.blocked{color:red;font-weight:bold;margin-top:10px}.carousel-item .module-cover{width:100%;height:180px;background-color:#000;border-radius:8px;margin-bottom:15px;position:relative}.carousel-item img{max-width:100%;height:auto;border-radius:8px;margin-bottom:10px}.carousel-controls{position:absolute;top:50%;width:100%;display:flex;justify-content:space-between;transform:translateY(-50%)}.carousel-button{background-color:rgba(0,0,0,0.5);color:white;border:0;padding:15px;font-size:18px;cursor:pointer;border-radius:50%}footer{text-align:center;padding:20px;font-size:14px;color:#666;background-color:#000;width:100%;margin-top:20px}.video-section{width:100%;max-width:800px;margin:40px auto;text-align:center}.video-section h2{font-size:24px;color:#fff;margin-bottom:20px}.video-section video{width:100%;height:auto;border-radius:8px;box-shadow:0 4px 10px rgba(0,0,0,0.5)}.subscribe-btn{position:absolute;bottom:20px;left:20px;background-color:#f60;color:white;padding:15px 25px;font-size:18px;font-weight:400;text-transform:uppercase;border:0;border-radius:5px;cursor:pointer;box-shadow:0 0 15px rgba(255,102,0,0.6);transition:all .3s ease-in-out}.subscribe-btn:hover{background-color:#ff8533;box-shadow:0 0 25px rgba(255,102,0,1)}</style>
+</head>
+<body>
+<header>
+Área VIP - protix
+<div class=menu-icon onclick=voltarPagina()>
+<div></div>
+<div></div>
+<div></div>
+</div>
+</header>
+<div class=video-banner>
+<video autoplay muted loop playsinline>
+<source src=Loop.mp4 type=video/mp4>
+Seu navegador não suporta o elemento de vídeo.
+</video>
+<div class=video-overlay></div>
+<button class="subscribe-btn" onclick="window.location.href='https://pay.kiwify.com.br/Z9AST44';">Assine Já</button>
+</div>
+<div class=highlight-section>
+<span class=star>&#9733;</span>
+<h2 class=highlight-title>Mais Procurados</h2>
+</div>
+<div class=carousel-container>
+<div class=carousel-wrapper id=carousel>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Capa1.jpg alt="Capa do Método 01" />
+</div>
+<h3>Método 01</h3>
+<p>Descrição do Método 01.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Ia.jpg alt="Capa do Método 02" />
+</div>
+<h3>Método 02</h3>
+<p>Iremos disponibilizar IA's que irão ajudar a automatizar.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Tiktok.jpg alt="Capa do Método 03" />
+</div>
+<h3>Método 03</h3>
+<p>Use uma das maiores plataformas para ter resultado.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Dica.jpg alt="Capa do Método 04" />
+</div>
+<h3>Método 04</h3>
+<p>Nesse módulo você vai ganhar dicas únicas para ter total resultado.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Lucrar.jpg alt="Capa do Método 05" />
+</div>
+<h3>Método 05</h3>
+<p>Aqui você vai aprender como e de que forma você vai lucrar com a protix.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+</div>
+<div class=carousel-controls>
+<button class=carousel-button onclick=moveCarousel(-1)>&#10094;</button>
+<button class=carousel-button onclick=moveCarousel(1)>&#10095;</button>
+</div>
+</div>
+<div class=highlight-section>
+<span class=star>&#9733;</span>
+<h2 class=highlight-title>Veja também</h2>
+</div>
+<div class=carousel-container>
+<div class=carousel-wrapper id=carousel-bottom>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Pack.jpg alt="Capa do Método 06" />
+</div>
+<h3>Método 06</h3>
+<p>pack estratégia para ser usado em redes sociais.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Pa.jpg alt="Capa do Método 07" />
+</div>
+<h3>Método 07</h3>
+<p>pack estratégias para Pinterest.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=J.jpg alt="Capa do Método 08" />
+</div>
+<h3>Método 08</h3>
+<p>Descubra o que fazer para atendenter pelo whatsapp.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=Az.jpg alt="Capa do Método 09" />
+</div>
+<h3>Método 09</h3>
+<p>Descubra o que fazer para atendenter pelo telegram.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+<div class=carousel-item>
+<div class=module-cover>
+<img src=a.jpg alt="Capa do Método 10" />
+</div>
+<h3>Método 10</h3>
+<p>Novas formas de explorar o mercado de forma inteligente.</p>
+<p class=blocked>Acesso bloqueado. Assine para acessar.</p>
+</div>
+</div>
+<div class=carousel-controls>
+<button class=carousel-button onclick=moveCarouselBottom(-1)>&#10094;</button>
+<button class=carousel-button onclick=moveCarouselBottom(1)>&#10095;</button>
+</div>
+</div>
+<div class=image-container>
+<img src=wu.png alt="Imagem adicional" style="width:100%;max-width:1200px;margin-top:20px;display:block;margin-left:auto;margin-right:auto"/>
+</div>
+<div class=video-banner>
+<video autoplay muted loop playsinline>
+<source src=Gl.mp4 type=video/mp4>
+<footer>
+&copy; 2024 Protix. Todos os direitos reservados.
+</footer>
+<script>let currentIndex=0;let currentIndexBottom=0;function voltarPagina(){window.location.href='site.html';}
+function redirecionarKiwify() { window.location.href = "https://pay.kiwify.com.br/Z9AST44"; }
+function moveCarousel(direction){const carousel=document.getElementById('carousel');const items=document.querySelectorAll('.carousel-item');const totalItems=items.length;currentIndex=(currentIndex+direction+totalItems)%totalItems;carousel.style.transform=`translateX(-${currentIndex*(items[0].offsetWidth+20)}px)`;}
+function moveCarouselBottom(direction){const carouselBottom=document.getElementById('carousel-bottom');const items=document.querySelectorAll('.carousel-item');const totalItems=items.length;currentIndexBottom=(currentIndexBottom+direction+totalItems)%totalItems;carouselBottom.style.transform=`translateX(-${currentIndexBottom*(items[0].offsetWidth+20)}px)`;}</script>
+</body>
+</html>

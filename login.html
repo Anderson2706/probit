@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url('fundo.jpg'); /* Fundo */
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .logo {
+        max-width: 300px; /* Tamanho da logo */
+        margin-bottom: 20px; /* Espaço entre logo e formulário */
+    }
+
+    .container {
+        width: 100%;
+        max-width: 400px; /* Largura do formulário */
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.9); /* Fundo com leve transparência */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+        font-weight: bold; /* Aumenta a espessura da fonte do título */
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 20px; /* Bordas arredondadas */
+        background-color: #fff; /* Fundo branco */
+        font-size: 1rem;
+        font-weight: bold; /* Deixa a fonte mais grossa */
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #FF3100; /* Cor do botão */
+        color: white;
+        border: 0;
+        border-radius: 20px; /* Bordas arredondadas */
+        cursor: pointer;
+        font-weight: bold; /* Deixa a fonte mais grossa */
+        font-size: 1.1rem;
+    }
+
+    button:hover {
+        background-color: #f80;
+    }
+</style>
+</head>
+<body>
+
+<img src="Nome.png" alt="Logo" class="logo"> <!-- Logo centralizada -->
+
+<div class="container">
+    <h2>Login</h2>
+    <form id="formLogin">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+    </form>
+</div>
+
+<script>
+    function voltarParaInicio() {
+        window.location.href = "cadastro.html";
+    }
+
+    document.getElementById("formLogin").addEventListener("submit", function(d) {
+        d.preventDefault();
+        const c = document.getElementById("email").value;
+        const b = document.getElementById("senha").value;
+        const e = localStorage.getItem("email");
+        const a = localStorage.getItem("senha");
+
+        if (c === e && b === a) {
+            alert("Login bem-sucedido! Redirecionando...");
+            window.location.href = "site.html";
+        } else {
+            alert("Email ou senha incorretos. Tente novamente.");
+        }
+    });
+</script>
+
+</body>
+</html>

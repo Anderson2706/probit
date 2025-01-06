@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Afiliação - Shoope Style</title>
+ <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #00142F; /* Cor de fundo alterada */
+        color: #fff; /* Cor do texto em branco para contraste */
+        display: flex;
+        justify-content: center; /* Centraliza os produtos na página */
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    
+
+
+    header {
+        background-color: #FF3100; /* Cor do header alterada */
+        padding: 20px;
+        text-align: center;
+        color: white;
+        width: 100%;
+    }
+    
+
+    .product-card {
+        padding: 16px;
+        margin: 16px;
+        width: 300px;
+        background-color: #FF3100; /* Cor dos módulos dos produtos */
+        color: white; /* Texto no módulo dos produtos */
+        border-radius: 8px;
+        text-align: center; /* Centraliza o conteúdo dentro do card */
+    }
+
+
+    .product-image img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+
+    .product-info {
+        margin-top: 12px;
+    }
+
+    .copy-link {
+        margin-top: 10px;
+    }
+
+
+    .copy-link input {
+        width: 100%;
+        padding: 8px;
+        border: none;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background-color: #fff;
+        color: #000;
+    }
+
+    .copy-link button {
+        background-color: #00142F; /* Cor do botão alterada */
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    footer {
+        background-color: #00142F;
+        padding: 10px;
+        text-align: center;
+        color: white;
+    }
+</style>
+
+</head>
+<body>
+    <header>
+            <a href="site.html" class="back-button">&#8592; Voltar</a>  
+        Shoope - Produtos para Afiliados
+        <div class="menu-icon" onclick="voltarPagina()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        
+    </header>
+   <!-- Seta para Voltar -->
+ 
+    <div class="container">
+        <!-- Produto 1 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Airdots.jpg" alt="Fone Xiaomi Redmi Airdots 2">
+            </div>
+            <div class="product-info">
+                <h3>Fone De Ouvido Sem Fio Xiaomi Redmi Airdots 2</h3>
+                <p><strong>Preço:</strong> R$ 21,79 - R$ 49,98</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 5,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Compacto, ergonômico e com excelente qualidade de som. Ideal para música, chamadas e atividades físicas.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-1" value="https://s.shopee.com.br/8fBtb22DPG" readonly>
+                <button onclick="copyLink('product-link-1')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 2 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Arma.png" alt="Arma de Gel">
+            </div>
+            <div class="product-info">
+                <h3>Arma Metralhadora Blaster Lança Bolinhas De Gel Elétrica</h3>
+                <p><strong>Preço:</strong> R$ 89,99</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 10,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Divirta-se com esta incrível arma que dispara bolinhas de gel. Perfeita para brincadeiras e desafios com amigos!</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-2" value="https://s.shopee.com.br/5Ac1RmGiCK" readonly>
+                <button onclick="copyLink('product-link-2')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 3 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="RelógioMark.png" alt="Relógio Smart">
+            </div>
+            <div class="product-info">
+                <h3>D30 Smart Watch - Monitor Fitness</h3>
+                <p><strong>Preço:</strong> R$ 19,99</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 3,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Relógio inteligente à prova d'água com monitoramento de frequência cardíaca, pressão arterial e rastreador fitness.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-3" value="https://s.shopee.com.br/6AUYefmFDH" readonly>
+                <button onclick="copyLink('product-link-3')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 4 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="fone.png" alt="Fone Bluetooth P9 TWS">
+            </div>
+            <div class="product-info">
+                <h3>Fone Bluetooth Sem Fio P9 TWS Macaron</h3>
+                <p><strong>Preço:</strong> R$ 31,90 - R$ 58,90</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 6,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Fone Bluetooth sem fio com design compacto e som de alta qualidade. Envio imediato!</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-4" value="https://s.shopee.com.br/4Ajb2WtVrl" readonly>
+                <button onclick="copyLink('product-link-4')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 5 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Camera.png" alt="Câmera de Segurança">
+            </div>
+            <div class="product-info">
+                <h3>Câmera Segurança Wifi IP Sem Fio 360</h3>
+                <p><strong>Preço:</strong> R$ 59,80</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 8,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Câmera de segurança com visão Full HD 360º, encaixe em bocal de lâmpada e controle via aplicativo. Ideal para sua segurança.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-5" value="https://s.shopee.com.br/u25X1TVc" readonly>
+                <button onclick="copyLink('product-link-5')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 6 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Ff.png" alt="ROMANTIC CROWN Copo Térmico Inox">
+            </div>
+            <div class="product-info">
+                <h3>ROMANTIC CROWN Copo Térmico Inox Portátil 1200ml</h3>
+                <p><strong>Preço:</strong> R$ 69,98 - R$ 69,99</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 10,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Garrafa térmica inox portátil de alta qualidade, com tampa e canudo. Ideal para quem busca praticidade e estilo no dia a dia.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-6" value="https://s.shopee.com.br/8pVS3VhKGU" readonly>
+                <button onclick="copyLink('product-link-6')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 7 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Kit.png" alt="Kit 6 Peças Faqueiro Gourmet">
+            </div>
+            <div class="product-info">
+                <h3>Kit 6 Peças Faqueiro Gourmet Aço Inox</h3>
+                <p><strong>Preço:</strong> R$ 37,90</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 4,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Jogo de talheres de 6 peças em aço inox para sua mesa posta. Elegância e qualidade para o seu jantar!</p>
+            </div>
+            
+            <div class="copy-link">
+                <input type="text" id="product-link-7" value="https://s.shopee.com.br/8zosFYepuh" readonly>
+                <button onclick="copyLink('product-link-7')">Copiar Link</button>
+            </div>
+            
+        </div>
+
+        <!-- Produto 8 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Garrafa.png" alt="Kit Garrafa Térmica Vacuum Bottle">
+            </div>
+            <div class="product-info">
+                <h3>Kit Garrafa Térmica Vacuum Bottle Inox 500ml + 3 Xícaras</h3>
+                <p><strong>Preço:</strong> R$ 29,98 - R$ 35,98</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 4,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Ideal para bebidas quentes ou frias, esse kit térmico de inox é perfeito para quem gosta de praticidade e estilo.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-8" value="https://s.shopee.com.br/703nqoZ22u" readonly>
+                <button onclick="copyLink('product-link-8')">Copiar Link</button>
+            </div>
+        </div>
+
+        <!-- Produto 9 -->
+        <div class="product-card">
+            <div class="product-image">
+                <img src="Faca.png" alt="Faqueiro Jogo de Facas">
+            </div>
+            <div class="product-info">
+                <h3>Faqueiro Jogo De Facas 6 Peças Inox</h3>
+                <p><strong>Preço:</strong> R$ 38,81</p>
+                <p><strong>Comissão:</strong> Ganhe até R$ 5,00 por venda divulgada!</p>
+                <p><strong>Descrição:</strong> Jogo de facas em aço inox, ideal para uso diário e para a mesa posta. Design moderno e durável.</p>
+            </div>
+            <div class="copy-link">
+                <input type="text" id="product-link-9" value="https://s.shopee.com.br/8pVS2Kbxa7" readonly>
+                <button onclick="copyLink('product-link-9')">Copiar Link</button>
+                </div>
+            </div>
+            <!-- Produto 10 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="tapete.png" alt="Tapete Banheiro Antiderrapante">
+    </div>
+    <div class="product-info">
+        <h3>Tapete Banheiro Antiderrapante Absorvente</h3>
+        <p><strong>Preço:</strong> R$ 19,00 - R$ 19,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 3,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Tapete para banheiro com excelente absorção e secagem rápida. Disponível em cores e estampas sortidas.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-10" value="https://s.shopee.com.br/1LPVUxsfei" readonly>
+        <button onclick="copyLink('product-link-10')">Copiar Link</button>
+        
+                </div>
+            </div>
+    <!-- Produto 11 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="frio.png" alt="Mini Umidificador Egg Portátil">
+    </div>
+    <div class="product-info">
+        <h3>Mini Umidificador Difusor Aromatizador Egg Portátil</h3>
+        <p><strong>Preço:</strong> R$ 15,98 - R$ 15,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 2,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Umidificador portátil com luz LED para aromatização e purificação do ambiente. Ideal para casa e escritório.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-11" value="https://s.shopee.com.br/1B65JXkQPA" readonly>
+        <button onclick="copyLink('product-link-11')">Copiar Link</button>
+        
+                </div>
+            </div>
+
+<!-- Produto 12 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="senha.png" alt="Campainha com Câmera Vídeo Porteiro Sem Fio Wi-Fi HD">
+    </div>
+    <div class="product-info">
+        <h3>Campainha com Câmera Vídeo Porteiro Sem Fio Wi-Fi HD Inteligente</h3>
+        <p><strong>Preço:</strong> R$ 50,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 6,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Campainha inteligente com câmera de vídeo, conectada via Wi-Fi, que permite visualizar e conversar com quem está na porta pelo celular. Recarregável e de fácil instalação!</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-12" value="https://s.shopee.com.br/4AjgudYsS2" readonly>
+        <button onclick="copyLink('product-link-12')">Copiar Link</button>
+                </div>
+            </div>
+            
+            <!-- Produto 13 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Ovo.png" alt="Frigideira Multifuncional Antiaderente 4 em 1">
+    </div>
+    <div class="product-info">
+        <h3>Frigideira Multifuncional Antiaderente 4 em 1 Ovos Hambúrguer Omelete Com Alça De Madeira</h3>
+        <p><strong>Preço:</strong> R$ 39,99 - R$ 41,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 5,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Frigideira multifuncional com 4 compartimentos para preparar ovos, hambúrguer, omeletes e muito mais. Super prática e com alça de madeira para maior conforto e segurança.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-13" value="https://s.shopee.com.br/4pzNiICI1K" readonly>
+        <button onclick="copyLink('product-link-13')">Copiar Link</button>
+                </div>
+            </div>
+<!-- Produto 14 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Pa.png" alt="Kit com 15 Potes Plásticos">
+    </div>
+    <div class="product-info">
+        <h3>Kit com 15 Potes Plásticos</h3>
+        <p><strong>Preço:</strong> R$ 37,90</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 4,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Conjunto com 15 potes plásticos de diferentes tamanhos, ideais para armazenar alimentos, organizar a casa ou escritório. Praticidade e qualidade!</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-14" value="https://s.shopee.com.br/8Usg5Qt2oP" readonly>
+        <button onclick="copyLink('product-link-14')">Copiar Link</button>
+                    </div>
+                </div>
+<!-- Produto 15 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="M.png" alt="Tabletop Cortador Fatiador 3 Lâminas Ralador de Verdura e Legumes">
+    </div>
+    <div class="product-info">
+        <h3>Tabletop Cortador Fatiador 3 Lâminas Ralador de Verdura e Legumes</h3>
+        <p><strong>Preço:</strong> R$ 36,88</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 5,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Cortador e fatiador de legumes com 3 lâminas, ideal para facilitar o preparo das suas refeições. Prático, rápido e eficiente!</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-15" value="https://s.shopee.com.br/7ANIVBoKd0" readonly>
+        <button onclick="copyLink('product-link-15')">Copiar Link</button>
+                </div>
+            </div>
+            <!-- Produto 12 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Bom.png" alt="Bomba De Ar Elétrica Portátil">
+    </div>
+    <div class="product-info">
+        <h3>Carro Pneu Inflator Bomba De Ar Elétrica Mini Portátil</h3>
+        <p><strong>Preço:</strong> R$ 83,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 10,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Compressor sem fio para encher pneus de carros, motos e bicicletas. Compacto, prático e fácil de usar.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-12" value="https://s.shopee.com.br/5prvI5gf3Y" readonly>
+        <button onclick="copyLink('product-link-12')">Copiar Link</button>
+                 </div>
+              </div>
+<!-- Produto 13 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="senha.png" alt="Porta Condimentos Giratório">
+    </div>
+    <div class="product-info">
+        <h3>Porta Condimentos Temperos Giratório Potes Vidro</h3>
+        <p><strong>Preço:</strong> R$ 49,90 - R$ 59,90</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 7,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Organizador giratório com potes de vidro e tampa dosadora. Prático e elegante para a sua cozinha.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-13" value="https://s.shopee.com.br/5fYV60bVFK" readonly>
+        <button onclick="copyLink('product-link-13')">Copiar Link</button>
+                    </div>
+                 </div>
+<!-- Produto 14 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Colher.png" alt="Kit Talheres Linha Ouro">
+    </div>
+    <div class="product-info">
+        <h3>Kit 24 Peças Talheres Colher Garfo Faca Linha Ouro</h3>
+        <p><strong>Preço:</strong> R$ 35,90</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 5,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Conjunto completo de talheres com acabamento luxuoso em linha ouro. Ideal para ocasiões especiais.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-14" value="https://s.shopee.com.br/AA0uSUANRO" readonly>
+        <button onclick="copyLink('product-link-14')">Copiar Link</button>
+                        </div>
+                    </div>
+                    <!-- Produto 15 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Es.png" alt="Escova Elétrica de Limpeza 5 em 1">
+    </div>
+    <div class="product-info">
+        <h3>Escova Elétrica de Limpeza 5 em 1 Sem Fio</h3>
+        <p><strong>Preço:</strong> R$ 25,99 - R$ 29,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 3,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Limpador multiuso prático e eficiente para cozinha e banheiro. Fácil de usar e recarregável.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-15" value="https://s.shopee.com.br/6fR2IPRwed" readonly>
+        <button onclick="copyLink('product-link-15')">Copiar Link</button>
+                </div>
+            </div>
+    <!-- Produto 16 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Ne.png" alt="Mini Rodo Esfregão Absorvente Portátil">
+    </div>
+    <div class="product-info">
+        <h3>Mini Rodo Esfregão Absorvente Portátil</h3>
+        <p><strong>Preço:</strong> R$ 12,89</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 2,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Compacto e multifuncional, ideal para limpeza de mesa e janelas com facilidade e eficiência.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-16" value="https://s.shopee.com.br/50IoJbjuH1" readonly>
+        <button onclick="copyLink('product-link-16')">Copiar Link</button>
+                </div>
+            </div>
+            <!-- Produto 13 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="sa.png" alt="Porta Condimentos Giratório">
+    </div>
+    <div class="product-info">
+        <h3>Porta Condimentos Temperos Giratório Potes Vidro</h3>
+        <p><strong>Preço:</strong> R$ 49,90 - R$ 59,90</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 7,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Organizador giratório com potes de vidro e tampa dosadora. Prático e elegante para a sua cozinha.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-13" value="https://s.shopee.com.br/5fYV60bVFK" readonly>
+        <button onclick="copyLink('product-link-13')">Copiar Link</button>
+                    </div>
+                </div>
+
+ <!-- Produto 17 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="lixo.png" alt="Lixeira com Sensor Automático Inteligente">
+    </div>
+    <div class="product-info">
+        <h3>Lixeira com Sensor Automático Inteligente</h3>
+        <p><strong>Preço:</strong> R$ 88,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 10,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Cesto de lixo inteligente de 16 litros com abertura automática. Ideal para banheiros, cozinhas e escritórios, trazendo praticidade e modernidade ao seu espaço.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-17" value="https://s.shopee.com.br/4L37X4Qbem" readonly>
+        <button onclick="copyLink('product-link-17')">Copiar Link</button>
+                </div>
+            </div>
+       <!-- Produto 18 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Press.png" alt="Medidor de Pressão Arterial Digital">
+    </div>
+    <div class="product-info">
+        <h3>Medidor de Pressão Arterial Digital</h3>
+        <p><strong>Preço:</strong> R$ 59,99</p>
+        <p><strong>Comissão:</strong> Ganhe até R$ 7,00 por venda divulgada!</p>
+        <p><strong>Descrição:</strong> Aparelho profissional portátil para medição de pressão arterial no braço. Ideal para uso doméstico com precisão e praticidade.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-18" value="https://s.shopee.com.br/5KvejBKTAp" readonly>
+        <button onclick="copyLink('product-link-18')">Copiar Link</button>
+                </div>
+            </div>
+<!-- Produto 19-->
+<!-- Produto 16 -->
+<div class="product-card">
+    <div class="product-image">
+        <img src="Jj.png" alt="Caixa De Som Go 3 Bluetooth Portátil">
+    </div>
+    <div class="product-info">
+        <h3>Caixa De Som Go 3 Bluetooth Portátil</h3>
+        <p><strong>Preço:</strong> R$ 44,99</p>
+        <p><strong>Descrição:</strong> Caixa de som Bluetooth portátil, à prova d'água, com bateria esportiva ideal para qualquer ocasião.</p>
+    </div>
+    <div class="copy-link">
+        <input type="text" id="product-link-19" value="https://s.shopee.com.br/AA0vAsTmic" readonly>
+        <button onclick="copyLink('product-link-19')">Copiar Link</button>
+    </div>
+</div>
+<div class="product-card" style="border: 1px solid #ccc; padding: 16px; margin: 16px; width: 300px; font-family: Arial, sans-serif;">
+    <div class="product-image" style="text-align: center; margin-bottom: 16px;">
+        <img src="So.png" alt="Bermuda Esportiva Masculina Short Para Corridas e Academia" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="product-info" style="margin-bottom: 16px;">
+        <h3 style="font-size: 18px; margin: 0 0 8px;">Bermuda Esportiva Masculina</h3>
+        <p style="margin: 4px 0;"><strong>Preço:</strong> R$ 31,99</p>
+        <p style="margin: 4px 0;"><strong>Descrição:</strong> Bermuda ideal para corridas e academia, leve, confortável e estilosa.</p>
+    </div>
+    <div class="copy-link" style="text-align: center;">
+        <input type="text" id="product-link-20" value="https://s.shopee.com.br/8UshCw3ai8" readonly style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 8px;">
+        <button onclick="copyLink('product-link-19')">Copiar Link</button>    
+        </div>
+    </div>
+    <div class="product-card" style="border: 1px solid #ccc; padding: 16px; margin: 16px; width: 300px; font-family: Arial, sans-serif;">
+    <div class="product-image" style="text-align: center; margin-bottom: 16px;">
+        <img src="lj.png" alt="Bermuda Listrada Masculina" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="product-info" style="margin-bottom: 16px;">
+        <h3 style="font-size: 18px; margin: 0 0 8px;">Bermuda Listrada Masculina</h3>
+        <p style="margin: 4px 0;"><strong>Preço:</strong> R$ 30,99</p>
+        <p style="margin: 4px 0;"><strong>Descrição:</strong> Bermuda masculina listrada, elegante e confortável, perfeita para ocasiões casuais.</p>
+    </div>
+    <div class="copy-link" style="text-align: center;">
+        <input type="text" id="product-link-21" value="https://s.shopee.com.br/6AUmR9CfZL" readonly style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 8px;">
+        <button onclick="copyLink('product-link-19')">Copiar Link</button>    
+    </div>
+</div>
+<div class="product-card" style="border: 1px solid #ccc; padding: 16px; margin: 16px; width: 300px; font-family: Arial, sans-serif;">
+    <div class="product-image" style="text-align: center; margin-bottom: 16px;">
+        <img src="pp.png" alt="Kit Camiseta Algodão + Short Tactel Masculino" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="product-info" style="margin-bottom: 16px;">
+        <h3 style="font-size: 18px; margin: 0 0 8px;">Kit Camiseta Algodão + Short Tactel Masculino</h3>
+        <p style="margin: 4px 0;"><strong>Preço:</strong> R$ 29,99 - R$ 51,99</p>
+        <p style="margin: 4px 0;"><strong>Descrição:</strong> Conjunto versátil e confortável, ideal para atividades casuais e esportivas.</p>
+    </div>
+    <div class="copy-link" style="text-align: center;">
+        <input type="text" id="product-link-22" value="https://s.shopee.com.br/8fC7QPZT6W" readonly style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 8px;">
+        <button onclick="copyLink('product-link-19')">Copiar Link</button>    
+    </div>
+</div>
+<div class="product-card" style="border: 1px solid #ccc; padding: 16px; margin: 16px; width: 300px; font-family: Arial, sans-serif;">
+    <div class="product-image" style="text-align: center; margin-bottom: 16px;">
+        <img src="Ll.png" alt="Kit 5 Cuecas Boxer de ALGODÃO Masculina Cueca Box Adulta" style="max-width: 100%; height: auto;">
+    </div>
+    <div class="product-info" style="margin-bottom: 16px;">
+        <h3 style="font-size: 18px; margin: 0 0 8px;">Kit 5 Cuecas Boxer de ALGODÃO Masculina Cueca Box Adulta</h3>
+        <p style="margin: 4px 0;"><strong>Preço:</strong> R$ 35,90 - R$ 54,90</p>
+        <p style="margin: 4px 0;"><strong>Descrição:</strong> Conjunto com 5 cuecas boxer de algodão, confortáveis e duráveis, perfeitas para o dia a dia.</p>
+    </div>
+    <div class="copy-link" style="text-align: center;">
+        <input type="text" id="product-link-23" value="https://s.shopee.com.br/" readonly style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 8px;">
+        <button onclick="copyLink('product-link-19')">Copiar Link</button>    
+    </div>
+</div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Shoope. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function voltarPagina() {
+            window.location.href = 'site.html'; // Redireciona para site.html
+        }
+
+        function copyLink(productId) {
+            const input = document.getElementById(productId);
+            input.select();
+            document.execCommand('copy');
+            alert('Link copiado com sucesso!');
+        }
+    </script>
+</body>
+</html>

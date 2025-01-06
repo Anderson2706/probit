@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protix - Módulo 1</title>
+    <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+        header {
+            background-color: #f60;
+            padding: 15px 30px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        #content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        h2 {
+            margin-top: 20px;
+            font-size: 20px;
+            color: #f60;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li {
+            font-size: 16px;
+        }
+        .social-icons {
+            margin-top: 20px;
+        }
+        .social-icons p {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .social-icons i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        .download-btn {
+            background-color: #f60;
+            color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease-in-out;
+        }
+        .download-btn:hover {
+            background-color: #ff8533;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 14px;
+            color: #666;
+            background-color: #121212;
+            width: 100%;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Protix - Módulo 1
+    </header>
+    
+    <div id="content">
+        <h1>Bem-vindo ao Protix - Módulo 1</h1>
+        <p>Esse módulo oferece IA's avançadas para ajudar você a alcançar resultados incríveis. Você aprenderá a automatizar processos e otimizar suas vendas usando as plataformas mais populares: WhatsApp, Telegram, TikTok e Instagram.</p>
+        
+        <h2>O que você vai aprender:</h2>
+        <ul>
+            <li>IA's que ajudam na automação de processos.</li>
+            <li>Como vender e engajar nas principais redes sociais (WhatsApp, Telegram, TikTok e Instagram).</li>
+        </ul>
+        
+        <div class="social-icons">
+            <h2>Redes Sociais</h2>
+            <p><i class="fab fa-instagram"></i> Instagram</p>
+            <p><i class="fab fa-telegram"></i> Telegram</p>
+            <p><i class="fab fa-tiktok"></i> TikTok</p>
+        </div>
+        
+        <button class="download-btn" onclick="gerarPDF()">Gerar PDF</button>
+    </div>
+
+    <footer>
+        &copy; 2024 Protix. Todos os direitos reservados.
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Título
+            doc.setFontSize(18);
+            doc.text('Protix - Módulo 1', 10, 10);
+
+            // Descrição do módulo
+            doc.setFontSize(12);
+            doc.text('Esse módulo oferece IA\'s avançadas para ajudar você a alcançar resultados incríveis. Você aprenderá a automatizar processos e otimizar suas vendas usando as plataformas mais populares: WhatsApp, Telegram, TikTok e Instagram.', 10, 20);
+
+            // O que o usuário vai aprender
+            doc.setFontSize(12);
+            doc.text('O que você vai aprender:', 10, 40);
+            doc.text('1. IA\'s que ajudam na automação de processos.', 10, 50);
+            doc.text('2. Como vender e engajar nas principais redes sociais (WhatsApp, Telegram, TikTok e Instagram).', 10, 60);
+
+            // Redes Sociais
+            doc.setFontSize(12);
+            doc.text('Redes Sociais:', 10, 80);
+            doc.text('Instagram', 10, 90);
+            doc.text('Telegram', 10, 100);
+            doc.text('TikTok', 10, 110);
+
+            // Gerar o PDF e fazer o download automaticamente
+            doc.save('Modulo1_Protix.pdf');
+        }
+    </script>
+</body>
+</html>

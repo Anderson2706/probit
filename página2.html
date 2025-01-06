@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Ganhe Online</title>
+    <style>
+        /* Estilo Global */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #00142F;
+            color: #fff;
+        }
+
+        /* Cabeçalho */
+        header {
+            background-color: #44444;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .logo {
+            max-width: 80px;
+        }
+
+        .menu-icon {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-icon div {
+            width: 25px;
+            height: 3px;
+            background-color: #FF3100;
+            margin: 5px 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+        }
+
+        .user-info span {
+            color: #FF3100;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .user-info img {
+            max-width: 50px;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #FF3100;
+        }
+
+        /* Seção */
+        section {
+            margin-top: 100px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-container {
+            background-color: #FF3100;
+            padding: 30px;
+            width: 80%;
+            max-width: 350px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 49, 0, 0.8);
+        }
+
+        .form-container h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .pix-info {
+            background-color: #fff;
+            color: #FF3100;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .pix-info p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .pix-code {
+            font-family: monospace;
+            font-size: 1.2rem;
+            background-color: #00142F;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            word-wrap: break-word;
+        }
+
+        .pix-qr-code img {
+            width: 150px;
+            height: 150px;
+            margin-top: 20px;
+        }
+
+        .back-to-home {
+            background-color: #44cc44;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .back-to-home:hover {
+            background-color: #369636;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="menu-icon" onclick="history.back();">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+    <img src="Logo.png" alt="Logo" class="logo">
+    <div class="user-info">
+        <span id="balance">R$ 0,00</span>
+        <img src="Icone.png" alt="Ícone do Usuário">
+    </div>
+</header>
+
+<section>
+    <div class="form-container">
+        <h2>Pagamento via Pix</h2>
+        <p>Copie e cole o código abaixo ou use o QR Code para fazer o pagamento</p>
+
+        <div class="pix-info">
+            <p>PIX - DEPOSITO PROTIX</p>
+            <div class="pix-code">
+                00020126330014BR.GOV.BCB.PIX011105536524356520400005303986540540.005802BR5906PROTIX6015DEPOSITO PROTIX62070503***63042417
+            </div>
+
+            <div class="pix-qr-code">
+                <img src="QRcode.png" alt="QR Code do Pix">
+            </div>
+        </div>
+
+        <p class="message" id="message">Faça o Pix através do QR Code ou copie e cole</p>
+
+        <!-- Botão para voltar ao início -->
+        <button class="back-to-home" onclick="window.location.href='site.html'">Voltar para Início</button>
+    </div>
+</section>
+
+<script>
+    // Função para carregar o saldo da página e mostrar no cabeçalho
+    function carregarSaldo() {
+        const saldo = parseFloat(localStorage.getItem('balance')) || 0;
+        document.getElementById('balance').textContent = `R$ ${saldo.toFixed(2)}`;
+    }
+
+    // Função que vai verificar se o depósito foi aprovado
+    function checkApproval() {
+        const approvedDeposit = localStorage.getItem('approvedDeposit'); // 'approvedDeposit' é o valor aprovado pelo administrador
+
+        // Se houver um depósito aprovado, soma ao saldo existente e redireciona para o site
+        if (approvedDeposit) {
+            const currentBalance = parseFloat(localStorage.getItem('balance')) || 0; // Pega o saldo atual
+            const newBalance = currentBalance + 40; // R$ 40 são adicionados ao saldo
+
+            // Atualiza o saldo no localStorage
+            localStorage.setItem('balance', newBalance);
+
+            // Atualiza o saldo na página
+            document.getElementById('balance').textContent = `R$ ${newBalance.toFixed(2)}`;
+
+            // Exibe a mensagem de sucesso
+            document.getElementById('message').textContent = 'Depósito aprovado com sucesso!';
+
+            // Remove o 'approvedDeposit' após a aprovação
+            localStorage.removeItem('approvedDeposit');
+
+            // Redireciona para o site.html automaticamente
+            setTimeout(() => {
+                window.location.href = 'site.html'; // Redireciona após 2 segundos
+            }, 2000);
+        }
+    }
+
+    // Chama a função para carregar o saldo e verificar aprovação assim que a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        carregarSaldo();  // Carrega o saldo na página
+        checkApproval();  // Verifica se o depósito foi aprovado e faz a atualização
+    });
+</script>
+</body>
+</html>
