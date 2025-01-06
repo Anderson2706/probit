@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Código de Convite</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #00142F; /* Cor de fundo azul do Mines */
+            margin: 0;
+            padding: 0;
+            color: #000; /* Texto preto */
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff; /* Fundo branco */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Leve sombra */
+            border-radius: 8px;
+            text-align: center;
+        }
+        h2 {
+            color: #FF3100;
+        }
+        p {
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .codigo {
+            font-size: 20px;
+            font-weight: bold;
+            background-color: #eee; /* Fundo cinza claro */
+            color: #333; /* Texto cinza escuro */
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FF3100;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FF7A00;
+        }
+        .saldo {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .voltar {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FF3100;
+            font-size: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .voltar:hover {
+            color: #FF7A00;
+        }
+        .voltar span {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Convide e Ganhe!</h2>
+    <p>Compartilhe seu código exclusivo e ganhe R$16 por cada pessoa que se cadastrar usando seu link.</p>
+    <div class="codigo" id="codigoConvite">...</div>
+    <p>Seu link de convite:</p>
+    <div class="codigo" id="linkConvite">https://protix.netlify.app/cadastro.html?codigo=...</div>
+    <button onclick="copiarLink()">Copiar Link</button>
+    <div class="saldo" id="saldoGanhos">Seu saldo de ganhos: R$0</div>
+    <a class="voltar" href="site.html">
+        &#8592; <span>Voltar</span>
+    </a>
+</div>
+
+<script>
+    // Função para gerar código de convite baseado no localStorage (nome ou email)
+    function gerarCodigoConvite() {
+        const nome = localStorage.getItem('nome');
+        const email = localStorage.getItem('email');
+
+        if (nome) {
+            return nome.split(" ")[0].toUpperCase() + Math.floor(Math.random() * 1000);
+        } else if (email) {
+            return email.split("@")[0].toUpperCase() + Math.floor(Math.random() * 1000);
+        } else {
+            return "USUARIO" + Math.floor(Math.random() * 1000);
+        }
+    }
+
+    // Função para copiar o link de convite para a área de transferência
+    function copiarLink() {
+        const link = document.getElementById('linkConvite').innerText;
+        navigator.clipboard.writeText(link).then(() => {
+            alert("Link copiado para a área de transferência!");
+        }).catch(err => {
+            alert("Erro ao copiar o link: " + err);
+        });
+    }
+
+    // Atualiza o código e o link de convite na página
+    const codigo = gerarCodigoConvite();
+    document.getElementById('codigoConvite').innerText = codigo;
+    document.getElementById('linkConvite').innerText = `https://protix.netlify.app/cadastro.html?codigo=${codigo}`;
+
+    // Simulação do saldo de ganhos (apenas para teste)
+    let saldo = parseFloat(localStorage.getItem('saldo') || 0);
+
+    // Função para atualizar o saldo de ganhos
+    function atualizarSaldo(novosGanhos) {
+        saldo += novosGanhos;
+        localStorage.setItem('saldo', saldo);
+        document.getElementById('saldoGanhos').innerText = `Seu saldo de ganhos: R$${saldo.toFixed(2)}`;
+    }
+
+    // Simula um novo ganho a cada 10 segundos (apenas para demonstração)
+    setInterval(() => {
+        const novosGanhos = 16; // R$16 por cadastro
+        atualizarSaldo(novosGanhos);
+    }, 10000); // Atualiza o saldo a cada 10 segundos
+</script>
+
+</body>
+</html>
