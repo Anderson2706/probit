@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitação de Saque</title>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #00142F;
+            color: #FF3100;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #FF3100;
+            color: #fff;
+            width: 100%;
+            padding: 30px 0;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container {
+            max-width: 400px;
+            padding: 40px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .form-container img {
+            max-width: 120px;
+            margin-bottom: 20px;
+        }
+
+        .form-container h2 {
+            color: #FF3100;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+
+        .form-container input,
+        .form-container button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .form-container button {
+            background-color: #FF3100;
+            color: white;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background-color: #FF5700;
+        }
+
+        .message {
+            display: none;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .message.success {
+            background-color: #005500;
+            color: white;
+        }
+
+        .message.error {
+            background-color: #FF3100;
+            color: white;
+        }
+
+        .back-arrow {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 26px;
+            color: #FF3100;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-arrow:hover {
+            color: #FF5700;
+        }
+
+        .valor-recebido {
+            font-weight: bold;
+            color: #FF5700;
+            margin-top: 10px;
+        }
+
+        .valor-minimo {
+            font-size: 14px;
+            color: #FF3100;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        Solicitação de Saque
+    </header>
+
+    <a href="site.html" class="back-arrow">&#8592; Voltar</a>
+
+    <main>
+        <div class="form-container">
+            <img src="Logopix.png" alt="Ícone Pix">
+            <h2>Solicitação de Saque</h2>
+            <form id="form-saque">
+                <input type="number" id="valor-saque" placeholder="Digite o valor do saque (R$)" required>
+                <input type="text" id="chave-pix" placeholder="Digite sua chave Pix (CPF)" required>
+                <button type="submit">Solicitar Saque</button>
+            </form>
+            <div id="valor-recebido" class="valor-recebido">Você irá receber R$ 0,00</div>
+            <div id="message" class="message"></div>
+            <div id="valor-minimo" class="valor-minimo">O valor mínimo para saque é R$ 20,00.</div>
+        </div>
+    </main>
+
+    <script>
+        const valorMinimo = 20;
+
+        // Função para validar o CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, "");
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false;
+
+            let soma = 0, resto;
+
+            for (let i = 1; i <= 9; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+            soma = 0;
+            for (let i = 1; i <= 10; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+
+            return resto === parseInt(cpf.substring(10, 11));
+        }
+
+        // Função para calcular o valor após a taxa de 18%
+        function calcularValorRecebido(valor) {
+            const taxa = 0.18;
+            const valorComTaxa = valor - (valor * taxa);
+            return valorComTaxa.toFixed(2);
+        }
+
+        // Função para atualizar o valor recebido enquanto digita
+        document.getElementById("valor-saque").addEventListener("input", function () {
+            const valorSaque = parseFloat(this.value);
+            const valorRecebido = calcularValorRecebido(valorSaque);
+
+            if (valorSaque >= valorMinimo) {
+                document.getElementById("valor-recebido").textContent = `Você irá receber R$ ${valorRecebido}`;
+                document.getElementById("valor-minimo").style.display = "none";
+            } else {
+                document.getElementById("valor-recebido").textContent = "Você irá receber R$ 0,00";
+                document.getElementById("valor-minimo").style.display = "block";
+            }
+        });
+
+        // Evento ao submeter o formulário de saque
+        document.getElementById("form-saque").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const valorSaque = document.getElementById("valor-saque").value;
+            const chavePix = document.getElementById("chave-pix").value;
+
+            if (parseFloat(valorSaque) < valorMinimo) {
+                showMessage(`O valor mínimo para saque é R$ ${valorMinimo},00.`, "error");
+                return;
+            }
+
+            if (!validarCPF(chavePix)) {
+                showMessage("Chave Pix inválida. O CPF informado não é válido.", "error");
+                return;
+            }
+
+            const valorRecebido = calcularValorRecebido(parseFloat(valorSaque));
+            document.getElementById("valor-recebido").textContent = `Você irá receber R$ ${valorRecebido}`;
+
+            const requestData = {
+                type: "Saque",
+                cpf: chavePix,
+                amount: parseFloat(valorSaque),
+                receivedAmount: valorRecebido
+            };
+
+            // Armazena os dados da solicitação no localStorage para serem acessados no painel administrativo
+            let requests = JSON.parse(localStorage.getItem("pendingTransactions")) || [];
+            requests.push(requestData);
+            localStorage.setItem("pendingTransactions", JSON.stringify(requests));
+
+            // Atualiza o saldo após o saque
+            let balance = parseFloat(localStorage.getItem("balance")) || 0;
+            balance -= parseFloat(valorSaque); // Subtrai o valor do saque do saldo
+            localStorage.setItem("balance", balance.toFixed(2)); // Salva o novo saldo no localStorage
+
+            window.location.href = "site.html"; // Usuário vai para site.html após a solicitação
+        });
+
+        // Função para exibir mensagens de erro ou sucesso
+        function showMessage(message, type) {
+            const messageElement = document.getElementById("message");
+            messageElement.textContent = message;
+            messageElement.className = `message ${type}`;
+            messageElement.style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
