@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ganhe Online</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #00142F;
+            color: #fff;
+        }
+
+        header {
+            background-color: #FF3100;
+            height: 200px;
+            border-bottom-left-radius: 40% 50%;
+            border-bottom-right-radius: 40% 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            position: relative;
+            z-index: -1;
+        }
+
+        .header-icon-left, .header-icon-right {
+            position: absolute;
+            top: 10px;
+            width: 80px;
+            height: 80px;
+        }
+
+        .header-icon-left {
+            left: 10px;
+        }
+
+        .header-icon-right {
+            right: 10px;
+        }
+
+        .white-section {
+            background-color: #fff;
+            width: 80%;
+            margin: -140px auto 0;
+            padding: 40px 20px;
+            border-radius: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-info {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .user-info span {
+            font-size: 2rem;
+            color: #00142F;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .toggle-eye {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+        }
+
+        .icon-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .icon-options div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 22%;
+            margin-bottom: 20px;
+        }
+
+        .icon-options img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 5px;
+        }
+
+        .icon-options span {
+            font-size: 0.9rem;
+            color: #00142F;
+            text-align: center;
+        }
+
+        #adminOption {
+            display: none;
+        }
+
+        .module {
+            background-color: #FF3100;
+            padding: 20px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255, 49, 0, 0.8);
+            cursor: pointer;
+        }
+
+        .module h2, .module p {
+            color: #fff;
+        }
+
+        .module button {
+            background-color: #FF3100;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .module button:hover {
+            background-color: #FF7A00;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                height: 180px;
+            }
+
+            .white-section {
+                padding: 30px;
+                margin: -120px auto 0;
+            }
+
+            .icon-options img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .icon-options span {
+                font-size: 0.8rem;
+            }
+
+            .module {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="Icone.png" alt="Ícone Esquerdo" class="header-icon-left">
+    <img src="Logo.png" alt="Ícone Direito" class="header-icon-right">
+</header>
+
+<div class="white-section">
+    <div class="user-info">
+        <span id="balance">R$ 0,00</span>
+        <img id="toggleEye" class="toggle-eye" src="olho_aberto.png" alt="Toggle Eye">
+    </div>
+
+    <div class="icon-options" id="userOptions">
+        <div>
+            <a href="saque.html">
+                <img src="dinheiro.png" alt="Ícone Dinheiro">
+                <span>Saque</span>
+            </a>
+        </div>
+        <div>
+            <a href="rendimento.html">
+                <img src="grafico.png" alt="Ícone Gráfico">
+                <span>Rendimentos</span>
+            </a>
+        </div>
+        <div>
+            <a href="https://livepix.gg/protix">
+                <img src="transferencia.png" alt="Ícone Transferência">
+                <span>Recarga</span>
+            </a>
+        </div>
+        <div>
+            <a href="probit.html">
+                <img src="probit.png" alt="Ícone Ajuda">
+                <span>Cripto moedas</span>
+            </a>
+        </div>
+        <div>
+            <a href="index.html">
+                <img src="sair.png" alt="Ícone Sair">
+                <span>Sair</span>
+            </a>
+        </div>
+        <div>
+            <a href="ajuda.html">
+                <img src="suporte.png" alt="Ícone Compras">
+                <span>Suporte</span>
+            </a>
+        </div>
+        <div>
+            <a href="chat.html">
+                <img src="chat.png" alt="Ícone Notificações">
+                <span>Suporte IA</span>
+            </a>
+        </div>
+        <div>
+            <a href="configurações.html">
+                <img src="configuração.png" alt="Ícone Configurações">
+                <span>Configurações</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Adiciona a nova opção visível apenas para administradores -->
+    <div id="adminOption">
+        <div>
+            <a href="admin.html">
+                <img src="admin.png" alt="Ícone Admin">
+                <span>Administração</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="module">
+    <h2>Ganhe com Shopee</h2>
+    <p>Participe de campanhas, ganhe comissão sobre vendas realizadas através dos links e aumente sua renda.</p>
+    <a href="shopee.html"><button>Saiba Mais</button></a>
+</div>
+
+<div class="module">
+    <h2>Game pro</h2>
+    <p>Tente a sua sorte e ganhe dinheiro.</p>
+    <a href="jogo.html"><button>Saiba Mais</button></a>
+</div>
+
+<div class="module">
+    <h2>Ganhe com código de convite</h2>
+    <p>Divulgue seu link de convite e ganhe 40% do valor depositado.</p>
+    <a href="convite.html"><button>Saiba Mais</button></a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    initializeUser();
+    updateBalanceDaily();
+    validateAccess();
+
+    const eyeIcon = document.getElementById('toggleEye');
+    const balanceElement = document.getElementById('balance');
+    let isBalanceVisible = true;
+
+    eyeIcon.addEventListener('click', () => {
+        if (isBalanceVisible) {
+            balanceElement.textContent = '••••';
+            eyeIcon.src = 'olho_fechado.png';
+        } else {
+            updateBalanceDisplay();
+            eyeIcon.src = 'olho_aberto.png';
+        }
+        isBalanceVisible = !isBalanceVisible;
+    });
+});
+
+function initializeUser() {
+    if (!localStorage.getItem('balance')) {
+        localStorage.setItem('balance', '0.00');
+        localStorage.setItem('lastUpdate', '');
+    }
+}
+
+function updateBalanceDaily() {
+    let balance = parseFloat(localStorage.getItem('balance')) || 0;
+    const lastUpdate = localStorage.getItem('lastUpdate') || '';
+    const today = new Date().toISOString().split('T')[0];
+
+    if (today !== lastUpdate) {
+        balance += 1;
+        localStorage.setItem('balance', balance.toFixed(2));
+        localStorage.setItem('lastUpdate', today);
+    }
+
+    updateBalanceDisplay();
+}
+
+function updateBalanceDisplay() {
+    const balance = parseFloat(localStorage.getItem('balance')) || 0;
+    const balanceElement = document.getElementById('balance');
+    balanceElement.textContent = `R$ ${balance.toFixed(2)}`;
+}
+
+function validateAccess() {
+    let userPassword = localStorage.getItem('userPassword') || prompt("Digite sua senha:");
+
+    if (userPassword) {
+        if (userPassword.startsWith('adm')) {
+            alert("Bem-vindo, Administrador!");
+            document.getElementById('adminOption').style.display = 'block';
+        } else {
+            alert("Bem-vindo, Usuário!");
+        }
+        localStorage.setItem('userPassword', userPassword);
+    } else {
+        alert("Senha inválida. Tente novamente.");
+        validateAccess();
+    }
+}
+</script>
+
+</body>
+</html>
