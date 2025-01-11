@@ -3,109 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel do Administrador</title>
+    <title>Painel Administrativo</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
             margin: 0;
             padding: 0;
-        }
-        header {
-            background-color: #444;
-            padding: 20px;
+            background-color: #00142F;
             color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #FF3100;
+            color: #fff;
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            color: #333;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #FF3100;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ccc;
             text-align: center;
         }
-        .request-list {
-            margin: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+        table th {
+            background-color: #FF3100;
+            color: white;
         }
-        .request-item {
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        .no-data {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
         }
-        .approve-btn {
-            background-color: #28a745;
+
+        .btn-approve {
+            background-color: #28A745;
             color: #fff;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border: none;
             border-radius: 5px;
+            font-size: 14px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .approve-btn:hover {
+
+        .btn-approve:hover {
             background-color: #218838;
+        }
+
+        .btn-clear {
+            background-color: #FF3100;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-clear:hover {
+            background-color: #FF5700;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Painel Administrativo</h1>
-    <p>Gerenciamento de Solicitações de Depósitos</p>
+    Painel Administrativo
 </header>
 
-<section class="request-list">
-    <h2>Solicitações Pendentes</h2>
-    <div id="requestList"></div>
-</section>
+<div class="container">
+    <h2>Solicitações de Saque</h2>
+    <table id="transactions-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>CPF</th>
+                <th>Valor (R$)</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Os dados serão preenchidos dinamicamente -->
+        </tbody>
+    </table>
+    <p class="no-data" id="no-data">Nenhuma solicitação registrada.</p>
+    <button class="btn-clear" id="clear-data">Limpar Dados</button>
+</div>
 
 <script>
-    // Função para exibir a solicitação de depósito
-    function displayRequest() {
-        const depositRequest = JSON.parse(localStorage.getItem('depositPending'));
+    // Carrega as solicitações do localStorage
+    function loadTransactions() {
+        const transactions = JSON.parse(localStorage.getItem("pendingTransactions")) || [];
+        const tableBody = document.querySelector("#transactions-table tbody");
+        const noData = document.getElementById("no-data");
 
-        if (depositRequest) {
-            const requestList = document.getElementById('requestList');
+        tableBody.innerHTML = ""; // Limpa o conteúdo da tabela
 
-            const requestItem = document.createElement('div');
-            requestItem.className = 'request-item';
-            requestItem.innerHTML = `
-                <span><strong>${depositRequest.fullName}</strong> - R$ ${depositRequest.depositAmount}</span>
-                <button class="approve-btn" onclick="approveDeposit()">Aprovar</button>
+        if (transactions.length === 0) {
+            noData.style.display = "block";
+            return;
+        }
+
+        noData.style.display = "none";
+
+        // Popula a tabela
+        transactions.forEach((transaction, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${transaction.cpf}</td>
+                <td>R$ ${transaction.amount.toFixed(2)}</td>
+                <td>
+                    <button class="btn-approve" onclick="approveTransaction(${index})">Aprovar</button>
+                </td>
             `;
+            tableBody.appendChild(row);
+        });
+    }
 
-            requestList.appendChild(requestItem);
+    // Função para aprovar uma transação
+    function approveTransaction(index) {
+        const transactions = JSON.parse(localStorage.getItem("pendingTransactions")) || [];
+        const transaction = transactions[index];
+
+        // Atualiza o saldo no localStorage
+        let balance = parseFloat(localStorage.getItem("balance")) || 0;
+
+        if (balance >= transaction.amount) {
+            balance -= transaction.amount;
+            localStorage.setItem("balance", balance.toFixed(2));
+
+            // Remove a transação aprovada
+            transactions.splice(index, 1);
+            localStorage.setItem("pendingTransactions", JSON.stringify(transactions));
+
+            alert(`Saque de R$ ${transaction.amount.toFixed(2)} aprovado! Saldo atualizado: R$ ${balance.toFixed(2)}`);
+            loadTransactions();
         } else {
-            document.getElementById('requestList').innerHTML = '<p>Sem solicitações pendentes.</p>';
+            alert("Saldo insuficiente para aprovar este saque!");
         }
     }
 
-    // Função para aprovar o depósito
-    function approveDeposit() {
-        const depositRequest = JSON.parse(localStorage.getItem('depositPending'));
-        const depositAmount = 40; // Valor fixo de 40 reais para adicionar
-
-        // Atualiza o saldo do usuário
-        let currentBalance = parseFloat(localStorage.getItem('userBalance')) || 0;
-        currentBalance += depositAmount;
-
-        // Salva o saldo atualizado
-        localStorage.setItem('userBalance', currentBalance.toFixed(2));
-
-        // Marcar o depósito como aprovado
-        localStorage.setItem('approvedDeposit', 'true');
-
-        // Limpar a solicitação após a aprovação
-        localStorage.removeItem('depositPending');
-
-        // Exibe a confirmação e redireciona para a página de pagamento
-        alert('Depósito aprovado! O saldo foi atualizado.');
-        
-        // Redireciona para a página de pagamento
-        window.location.href = 'página2.html'; // ou "site.html" a2"conforme o nome da sua página de pagamento
+    // Função para limpar os dados do localStorage
+    function clearData() {
+        if (confirm("Tem certeza que deseja limpar todas as solicitações?")) {
+            localStorage.removeItem("pendingTransactions");
+            loadTransactions();
+        }
     }
 
-    // Inicializa a página exibindo as solicitações
-    document.addEventListener('DOMContentLoaded', displayRequest);
+    // Eventos
+    document.getElementById("clear-data").addEventListener("click", clearData);
+
+    // Inicialização
+    loadTransactions();
 </script>
 
 </body>
