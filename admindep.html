@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Saldo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        form {
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .error, .success {
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cadastro de Usuário -->
+    <form id="registerForm">
+        <h2>Cadastro de Usuário</h2>
+        <input type="text" id="registerEmail" placeholder="Digite seu e-mail" required>
+        <button type="submit">Cadastrar</button>
+        <div id="registerMessage"></div>
+    </form>
+
+    <!-- Adicionar Saldo -->
+    <form id="addBalanceForm">
+        <h2>Adicionar Saldo (Admin)</h2>
+        <input type="text" id="adminEmail" placeholder="Digite o e-mail do usuário" required>
+        <input type="number" id="adminAmount" placeholder="Digite o valor a adicionar" min="1" required>
+        <button type="submit">Adicionar Saldo</button>
+        <div id="adminMessage"></div>
+    </form>
+
+    <!-- Ver Saldo do Usuário -->
+    <form id="checkBalanceForm">
+        <h2>Consultar Saldo</h2>
+        <input type="text" id="checkEmail" placeholder="Digite seu e-mail" required>
+        <button type="submit">Consultar</button>
+        <div id="checkBalanceMessage"></div>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const registerForm = document.getElementById("registerForm");
+            const addBalanceForm = document.getElementById("addBalanceForm");
+            const checkBalanceForm = document.getElementById("checkBalanceForm");
+
+            // Cadastro de usuário
+            registerForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById("registerEmail").value.trim();
+                const users = JSON.parse(localStorage.getItem("users")) || {};
+
+                if (users[email]) {
+                    showMessage("registerMessage", "Este e-mail já está cadastrado.", "error");
+                    return;
+                }
+
+                // Cria o usuário com saldo inicial 0
+                users[email] = { balance: 0 };
+                localStorage.setItem("users", JSON.stringify(users));
+
+                showMessage("registerMessage", "Usuário cadastrado com sucesso!", "success");
+                document.getElementById("registerEmail").value = ""; // Limpa o campo
+            });
+
+            // Adicionar saldo (Admin)
+            addBalanceForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById("adminEmail").value.trim();
+                const amount = parseFloat(document.getElementById("adminAmount").value);
+                const users = JSON.parse(localStorage.getItem("users")) || {};
+
+                if (!users[email]) {
+                    showMessage("adminMessage", "E-mail não encontrado. Verifique o cadastro.", "error");
+                    return;
+                }
+
+                if (isNaN(amount) || amount <= 0) {
+                    showMessage("adminMessage", "Por favor, insira um valor válido.", "error");
+                    return;
+                }
+
+                // Adiciona saldo ao usuário correspondente
+                users[email].balance += amount;
+                localStorage.setItem("users", JSON.stringify(users));
+
+                showMessage("adminMessage", `Saldo de R$ ${amount.toFixed(2)} adicionado para ${email}.`, "success");
+                document.getElementById("adminEmail").value = ""; // Limpa o campo
+                document.getElementById("adminAmount").value = ""; // Limpa o campo
+            });
+
+            // Consultar saldo
+            checkBalanceForm.addEventListener("submit", (e) => {
+                e.preventDefault();
+
+                const email = document.getElementById("checkEmail").value.trim();
+                const users = JSON.parse(localStorage.getItem("users")) || {};
+
+                if (!users[email]) {
+                    showMessage("checkBalanceMessage", "E-mail não encontrado. Verifique o cadastro.", "error");
+                    return;
+                }
+
+                const balance = users[email].balance.toFixed(2);
+                showMessage("checkBalanceMessage", `Saldo disponível: R$ ${balance}`, "success");
+                document.getElementById("checkEmail").value = ""; // Limpa o campo
+            });
+
+            // Exibe mensagens de sucesso/erro
+            function showMessage(elementId, message, type) {
+                const messageElement = document.getElementById(elementId);
+                messageElement.textContent = message;
+                messageElement.className = type;
+            }
+        });
+    </script>
+
+</body>
+</html>
